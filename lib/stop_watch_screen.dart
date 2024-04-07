@@ -16,6 +16,27 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 24,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text('0', style: TextStyle(fontSize: 50,),),
+              Text('00')
+            ],
+
+          ),
+          SizedBox(
+            width: 100,
+            height: 200,
+            child: ListView(
+              children: [
+                Center(child: Text('data')),
+
+              ],
+            ),
+          ),
+          Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -44,7 +65,8 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
                 ),
               )
             ],
-          )
+          ),
+          SizedBox(height: 24,)
         ],
       ),
     );
