@@ -11,10 +11,24 @@ class StopWatchScreen extends StatefulWidget {
 
 class _StipWatchScreenState extends State<StopWatchScreen> {
   Timer? _timer;
-  int time =0;
+  int time = 0;
   bool _isRunning = false;
 
   List<String> _lapTimes = [];
+
+  void _clickButton() {
+    // 값을 반대로 바꾸기 true ->false, false ->true
+    _isRunning = !_isRunning;
+    if (_isRunning) {
+      _start();
+    } else {
+      _pause();
+    }
+  }
+
+  void _start() {}
+
+  void _pause() {}
 
   @override
   void dispose() {
@@ -22,6 +36,7 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
     _timer?.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,15 +45,21 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 24,),
+          SizedBox(
+            height: 24,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('0', style: TextStyle(fontSize: 50,),),
+              Text(
+                '0',
+                style: TextStyle(
+                  fontSize: 50,
+                ),
+              ),
               Text('00')
             ],
-
           ),
           SizedBox(
             width: 100,
@@ -46,7 +67,6 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
             child: ListView(
               children: [
                 Center(child: Text('data')),
-
               ],
             ),
           ),
@@ -63,12 +83,19 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
                 ),
               ),
               FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _clickButton();
+
+                  });
+                },
                 backgroundColor: Colors.blue,
-                child: Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                ),
+                child: _isRunning
+                    ? Icon(Icons.pause,color: Colors.white,)
+                    : Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                      ),
               ),
               FloatingActionButton(
                 onPressed: () {},
@@ -80,7 +107,9 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
               )
             ],
           ),
-          SizedBox(height: 24,)
+          SizedBox(
+            height: 24,
+          )
         ],
       ),
     );
