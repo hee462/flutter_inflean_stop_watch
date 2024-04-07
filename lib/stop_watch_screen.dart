@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class StopWatchScreen extends StatefulWidget {
@@ -8,6 +10,18 @@ class StopWatchScreen extends StatefulWidget {
 }
 
 class _StipWatchScreenState extends State<StopWatchScreen> {
+  Timer? _timer;
+  int time =0;
+  bool _isRunning = false;
+
+  List<String> _lapTimes = [];
+
+  @override
+  void dispose() {
+    // timer 있으면 삭제
+    _timer?.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
