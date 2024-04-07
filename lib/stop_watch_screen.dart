@@ -33,6 +33,15 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
       });
     });
   }
+  void _reset(){
+    setState(() {
+      _isRunning = false;
+      _timer?.cancel();
+      _lapTimes.clear();
+      _time = 0;
+    });
+
+  }
 
   void _pause() {
     _timer?.cancel();
@@ -86,7 +95,9 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  _reset();
+                },
                 backgroundColor: Colors.orange,
                 child: Icon(
                   Icons.refresh,
