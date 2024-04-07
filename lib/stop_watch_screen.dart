@@ -33,14 +33,18 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
       });
     });
   }
-  void _reset(){
+
+  void _reset() {
     setState(() {
       _isRunning = false;
       _timer?.cancel();
       _lapTimes.clear();
       _time = 0;
     });
+  }
 
+  void _recordLapTime(String time) {
+    _lapTimes.insert(0, "${_lapTimes.length + 1}등 $time");
   }
 
   void _pause() {
@@ -58,14 +62,14 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
   Widget build(BuildContext context) {
     int sec = _time ~/ 100;
     // 2자리 이후로는 0으로 처리해서 움직임 없애기
-    String hundredth = "${_time % 100}".padLeft(2,'0');
+    String hundredth = "${_time % 100}".padLeft(2, '0');
     return Scaffold(
       appBar: AppBar(
         title: Text('스톱워치'),
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           Row(
@@ -74,20 +78,18 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
             children: [
               Text(
                 '$sec',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 50,
                 ),
               ),
-              Text('$hundredth')
+              Text(hundredth)
             ],
           ),
           SizedBox(
             width: 100,
             height: 200,
             child: ListView(
-              children: [
-                Center(child: Text('data')),
-              ],
+              children: _lapTimes.map((e) => Center(child: Text(e))).toList(),
             ),
           ),
           Spacer(),
@@ -99,7 +101,7 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
                   _reset();
                 },
                 backgroundColor: Colors.orange,
-                child: Icon(
+                child: const Icon(
                   Icons.refresh,
                   color: Colors.white,
                 ),
@@ -112,19 +114,23 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
                 },
                 backgroundColor: Colors.blue,
                 child: _isRunning
-                    ? Icon(
+                    ? const Icon(
                         Icons.pause,
                         color: Colors.white,
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.play_arrow,
                         color: Colors.white,
                       ),
               ),
               FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _recordLapTime('$sec.$hundredth');
+                  });
+                },
                 backgroundColor: Colors.green,
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   color: Colors.white,
                 ),
