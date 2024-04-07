@@ -11,7 +11,7 @@ class StopWatchScreen extends StatefulWidget {
 
 class _StipWatchScreenState extends State<StopWatchScreen> {
   Timer? _timer;
-  int time = 0;
+  int _time = 0;
   bool _isRunning = false;
 
   List<String> _lapTimes = [];
@@ -26,9 +26,17 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
     }
   }
 
-  void _start() {}
+  void _start() {
+    _timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
+      setState(() {
+        _time++;
+      });
+    });
+  }
 
-  void _pause() {}
+  void _pause() {
+    _timer?.cancel();
+  }
 
   @override
   void dispose() {
@@ -39,6 +47,9 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int sec = _time ~/ 100;
+    // 2자리 이후로는 0으로 처리해서 움직임 없애기
+    String hundredth = "${_time % 100}".padLeft(2,'0');
     return Scaffold(
       appBar: AppBar(
         title: Text('스톱워치'),
@@ -53,12 +64,12 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '0',
+                '$sec',
                 style: TextStyle(
                   fontSize: 50,
                 ),
               ),
-              Text('00')
+              Text('$hundredth')
             ],
           ),
           SizedBox(
@@ -86,12 +97,14 @@ class _StipWatchScreenState extends State<StopWatchScreen> {
                 onPressed: () {
                   setState(() {
                     _clickButton();
-
                   });
                 },
                 backgroundColor: Colors.blue,
                 child: _isRunning
-                    ? Icon(Icons.pause,color: Colors.white,)
+                    ? Icon(
+                        Icons.pause,
+                        color: Colors.white,
+                      )
                     : Icon(
                         Icons.play_arrow,
                         color: Colors.white,
